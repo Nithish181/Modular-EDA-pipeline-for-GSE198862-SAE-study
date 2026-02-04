@@ -20,6 +20,9 @@ plot_corr <- function(counts, meta, title, out) {
   dev.off()
 }
 
+#--------------------------------------------------
+#                 VISUALIZATION
+#-------------------------------------------------
 plot_corr(
   subsets$d3$counts,
   subsets$d3$meta,
@@ -40,3 +43,4 @@ plot_corr(
   "Sample Correlation: PCI 3d vs 20d",
   "figures/correlation/pci_day3_vs_day20.png"
 )
+
