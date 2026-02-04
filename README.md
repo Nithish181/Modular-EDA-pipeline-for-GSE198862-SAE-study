@@ -43,6 +43,8 @@ No differential expression testing is performed in this repository; this project
 ---
 
 ## Repository structure
+
+
 ├── data/
 │ ├── raw/ 
 │ └── processed/ 
@@ -70,5 +72,6 @@ source("scripts/02_data_wrangling.R")
 source("scripts/03_sample_correlation.R")
 source("scripts/04_pca_analysis.R")
 ````
+
 
 
