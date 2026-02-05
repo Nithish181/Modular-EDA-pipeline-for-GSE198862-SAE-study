@@ -1,10 +1,9 @@
-# Sepsis-Associated-Encephalopathy-SAE-temporal-transcriptomics
-Benchmarking DESeq2 vs edgeR for temporal analysis of sepsis-associated encephalopathy (GSE198862)
-# Exploratory Transcriptomic Analysis of Sepsis-Associated Encephalopathy (GSE198862)
+# Sepsis-Associated-Encephalopathy (SAE): Temporal Transcriptomic Analysis  
+**GEO dataset:** GSE198862
 
-This repository contains a modular exploratory data analysis (EDA) pipeline for bulk RNA-seq data generated from a murine model of sepsis-associated encephalopathy (SAE). The analysis is based on the publicly available GEO dataset **GSE198862**, which profiles brain transcriptomic changes following peritoneal contamination and infection (PCI) at multiple time points.
+This repository contains a modular RNA-seq analysis workflow for studying temporal gene-expression changes in a murine model of sepsis-associated encephalopathy (SAE). The analysis is based on the publicly available GEO dataset **GSE198862**, which profiles brain transcriptomic responses following peritoneal contamination and infection (PCI).
 
-The primary goal of this project is to assess data quality, sample coherence, and global gene-expression structure prior to performing differential expression and downstream functional analyses.
+The project is structured to progress from exploratory data analysis (EDA) and quality control to differential expression analysis (DEG), with an ongoing comparison of DESeq2 and edgeR at biologically relevant contrasts.
 
 ---
 
@@ -14,35 +13,46 @@ The primary goal of this project is to assess data quality, sample coherence, an
 - **Organism:** *Mus musculus*  
 - **Experimental design:**  
   - Sham vs PCI treatment  
-  - Two time points: **3 days** and **20 days post-PCI**  
+  - Two time points: **3 days** and **20 days post-PCI**
 
-Raw count data were downloaded separately, and sample metadata were obtained using the GEOquery package.
+Raw count data were downloaded separately, and sample metadata were retrieved using the GEOquery package.
 
 ---
 
-## What this pipeline does
+## What this project does
 
-This workflow focuses strictly on **pre-DE exploratory analysis**, which is a critical but often under-documented step in RNA-seq studies.
+This workflow emphasizes a **stepwise and biologically driven RNA-seq analysis**, beginning with exploratory analysis to validate data quality and experimental structure, followed by contrast-specific differential expression analysis.
 
-Specifically, the pipeline performs:
+### Exploratory data analysis (EDA)
+
+The EDA component focuses on pre-DE validation and includes:
 
 - Library size normalization using edgeR
 - CPM-based filtering to remove lowly expressed genes
-- Log-CPM transformation for visualization and exploratory analysis
-- Metadata-aware subsetting of samples based on treatment and time point
-- Sample–sample Pearson correlation analysis to assess global expression similarity
-- Principal component analysis (PCA) to evaluate separation by treatment and time
+- Log-CPM transformation for visualization
+- Metadata-aware subsetting by treatment and time point
+- Sample–sample Pearson correlation analysis
+- Principal component analysis (PCA) to assess global expression structure
 
-The analysis compares:
+Exploratory analyses compare:
 - 3-day sham vs 3-day PCI samples  
 - 20-day sham vs 20-day PCI samples  
-- PCI samples across 3 days vs 20 days to examine temporal progression
-
-No differential expression testing is performed in this repository; this project is intended to establish a clean and well-understood foundation before DEG and pathway analysis.
+- PCI samples across 3 days vs 20 days to assess temporal progression
 
 ---
 
+### Differential expression analysis and benchmarking (in progress)
 
+Following EDA, differential expression analysis is implemented as **contrast-specific case studies** using both **DESeq2 and edgeR**. Each method is applied independently to the same biological comparisons, enabling direct inspection of consistency and method-specific differences in detected signals.
+
+Current DEG analyses focus on:
+- Day-3 sham vs PCI  
+- Day-20 sham vs PCI  
+- Temporal comparison of PCI samples (Day-3 vs Day-20)
+
+At this stage, the comparison between DESeq2 and edgeR is **qualitative and contrast-driven**, intended to validate biological trends and model behavior rather than to serve as a large-scale benchmarking study. Refactoring toward a generalized and reusable DEG framework is planned after these case studies are stabilized.
+
+---
 
 <h2>Repository structure</h2>
 
@@ -56,13 +66,19 @@ Sepsis-Associated-Encephalopathy-SAE-temporal-transcriptomics/
 │   ├── 01_download_and_preprocess.R
 │   ├── 02_data_wrangling.R
 │   ├── 03_sample_correlation.R
-│   └── 04_pca_analysis.R
+│   ├── 04_pca_analysis.R
+│   ├── 05_DESeq2_DEG_day3_sham_vs_PCI.R
+│   ├── 06_DESeq2_DEG_day20_sham_vs_PCI.R
+│   ├── 07_edgeR_DEG_day3_sham_vs_PCI.R
+│   ├── 08_edgeR_DEG_day20_sham_vs_PCI.R
+│   └── 09_DEG_template_generalized.R   # planned
 ├── figures/
 │   ├── correlation/
 │   └── pca/
 └── README.md
 </pre>
 
+---
 
 ## How to run the analysis
 
@@ -73,10 +89,3 @@ source("scripts/01_download_and_preprocess.R")
 source("scripts/02_data_wrangling.R")
 source("scripts/03_sample_correlation.R")
 source("scripts/04_pca_analysis.R")
-````
-
-
-
-
-
-
